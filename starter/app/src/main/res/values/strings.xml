@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ND940C3-Project</string>
+    <string name="app_name">LoadApp</string>
     <string name="app_description">Download files from Internet</string>
     <string name="action_settings">Settings</string>
 
@@ -7,8 +7,30 @@
     <string name="notification_title">Udacity: Android Kotlin Nanodegree </string>
     <string name="notification_description">The Project 3 repository is downloaded</string>
     <string name="notification_button">See changes</string>
+    <string name="file_download_complete_channel_id" translatable="false">download_finished_channel</string>
+    <string name="file_download_complete_channel_name" translatable="true">Download Finished!</string>
 
     <string name="button_name">Click me</string>
     <string name="button_loading">We are loading </string>
     <string name="title_activity_detail">DetailActivity</string>
+
+    <string name="str_glide">Glide - Image Loading Library by BumpTech</string>
+    <string name="str_loadApp">LoadApp - Current Repository by Udacity</string>
+    <string name="str_retrofit">Retrofit - Type-safe HTTP client for Android and Java by Square, Inc</string>
+
+    <string name="glide_github_url">https://github.com/bumptech/glide</string>
+    <string name="load_app_github_url">https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter</string>
+    <string name="retrofit_github_url">https://github.com/square/retrofit</string>
+
+    <string name="load_app_message">LoadApp repository has been selected. Click Download to start.</string>
+    <string name="glide_message">Glide repository has been selected. Click Download to start.</string>
+    <string name="retrofit_message">Retrofit repository has been selected. Click Download to start.</string>
+
+    <string name="loading">Downloading...</string>
+    <string name="download_complete">Download Complete!</string>
+    <string name="download">Download</string>
+    <string name="success">Success</string>
+    <string name="ok">OK</string>
+    <string name="fileName">File Name:</string>
+    <string name="status">Status:</string>
 </resources>
