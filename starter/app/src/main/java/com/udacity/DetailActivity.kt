@@ -26,7 +26,7 @@ class DetailActivity : AppCompatActivity() {
         tv_status.text = status
     }
 
-    fun returnToMainActivity() {
+    private fun returnToMainActivity() {
         val  mainActivity = Intent(this, MainActivity::class.java)
         startActivity(mainActivity)
     }
