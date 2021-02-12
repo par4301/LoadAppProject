@@ -2,7 +2,6 @@ package com.udacity
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.content_detail.*
@@ -22,8 +21,10 @@ class DetailActivity : AppCompatActivity() {
 
         fileName = intent.getStringExtra("fileName").toString()
         status = intent.getStringExtra("status").toString()
-        tv_fileName.text = fileName
-        tv_status.text = status
+        text_file_name.text = fileName
+        text_status.text = status
+//        if(status.equals("Failed"))
+//            text_status.setTextColor("#FF0000")
     }
 
     private fun returnToMainActivity() {
