@@ -35,8 +35,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
             .setAutoCancel(true)
             .addAction(
                     NotificationCompat.Action(
-                    null,
-                    applicationContext.getString(R.string.action_notification_download),
+                    null,applicationContext.getString(R.string.action_notification_download),
                     contentPendingIntent)
             )
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -52,7 +51,6 @@ fun Context.createChannel(channelId: String, channelName: String) {
                 channelName,
                 NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
-            setShowBadge(false)
             enableLights(true)
             lightColor = Color.RED
             enableVibration(true)
