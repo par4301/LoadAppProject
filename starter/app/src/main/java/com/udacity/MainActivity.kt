@@ -101,7 +101,6 @@ class MainActivity : AppCompatActivity() {
             ) as NotificationManager
 
             createChannel(
-                    applicationContext,
                     getString(R.string.file_download_complete_channel_id),
                     getString(R.string.file_download_complete_channel_name)
             )
@@ -175,4 +174,9 @@ class MainActivity : AppCompatActivity() {
         val toast = Toast.makeText(this, text, Toast.LENGTH_SHORT)
         toast.show()
     }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        notificationManager.cancelNotifications()
+//    }
 }

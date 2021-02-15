@@ -21,7 +21,7 @@ class LoadingButton @JvmOverloads constructor(
     private var valueAnimator = ValueAnimator()
     private val textRect = Rect()
 
-    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { property, oldValue, newValue ->
+    private var buttonState: ButtonState by Delegates.observable(ButtonState.Completed) { _, _, newValue ->
         when(newValue) {
             ButtonState.Loading -> {
                 valueAnimator= ValueAnimator.ofFloat(0f, 1f).apply {

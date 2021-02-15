@@ -8,11 +8,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.udacity.DetailActivity
 import com.udacity.R
 
-private const val NOTIFICATION_ID = 0
+const val NOTIFICATION_ID = 0
 
 fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context, downloadDescription: String, status: String) {
     val contentIntent = Intent(applicationContext, DetailActivity::class.java)
@@ -33,35 +32,34 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
             .setSmallIcon(R.drawable.ic_assistant)
             .setContentTitle(applicationContext.getString(R.string.notification_title))
             .setContentText(messageBody)
-            .setContentIntent(contentPendingIntent)
             .setAutoCancel(true)
+            .addAction(
+                    NotificationCompat.Action(
+                    null,
+                    applicationContext.getString(R.string.action_notification_download),
+                    contentPendingIntent)
+            )
             .setPriority(NotificationCompat.PRIORITY_HIGH)
 
     notify(NOTIFICATION_ID, notificationBuilder.build())
 }
 
-fun NotificationManager.cancelNotifications() {
-    cancelAll()
-}
 
-fun createChannel(context: Context, channelId: String, channelName: String) {
+fun Context.createChannel(channelId: String, channelName: String) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val notificationChannel = NotificationChannel(
                 channelId,
                 channelName,
-                NotificationManager.IMPORTANCE_HIGH
+                NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
             setShowBadge(false)
+            enableLights(true)
+            lightColor = Color.RED
+            enableVibration(true)
+            description = getString(R.string.notification_description)
         }
 
-        notificationChannel.enableLights(true)
-        notificationChannel.lightColor = Color.RED
-        notificationChannel.enableVibration(true)
-        notificationChannel.description = context.getString(R.string.notification_description)
-
-        val notificationManager = getSystemService(
-                context, NotificationManager::class.java
-        )
-        notificationManager?.createNotificationChannel(notificationChannel)
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(notificationChannel)
     }
 }
