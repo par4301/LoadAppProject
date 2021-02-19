@@ -5,7 +5,10 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
+import com.udacity.util.dp
+import com.udacity.util.sp
 import kotlinx.android.synthetic.main.content_main.view.*
 import kotlin.properties.Delegates
 
@@ -22,29 +25,29 @@ class LoadingButton @JvmOverloads constructor(
     private val textRect = Rect()
 
     private var buttonState: ButtonState by Delegates.observable(ButtonState.Completed) { _, _, newValue ->
-        when(newValue) {
+        when (newValue) {
             ButtonState.Loading -> {
-                valueAnimator= ValueAnimator.ofFloat(0f, 1f).apply {
+                valueAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
                     addUpdateListener {
                         progress = animatedValue as Float
                         invalidate()
                     }
                     repeatMode = ValueAnimator.REVERSE
                     repeatCount = ValueAnimator.INFINITE
-                    duration = 3000
+                    duration = 750
                     start()
                 }
 
-                setText("Downloading")
-                setBgColor("#004349")
+                setText(context.getString(R.string.loading))
+                setBgColor(context.getColor(R.color.colorPrimaryDark))
                 disableLoadingButton()
             }
 
             ButtonState.Completed -> {
                 valueAnimator.cancel()
                 resetProgress()
-                setText("Download")
-                setBgColor("#07C2AA")
+                setText(context.getString(R.string.download))
+                setBgColor(context.getColor(R.color.colorPrimary))
                 enableLoadingButton()
             }
 
@@ -63,7 +66,7 @@ class LoadingButton @JvmOverloads constructor(
 
             try {
                 mButtonText = getString(R.styleable.LoadingButton_text).toString()
-                mBackgroundColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                mBackgroundColor = getColor(R.styleable.LoadingButton_loadingColor, Color.WHITE)
             } finally {
                 recycle()
             }
@@ -74,56 +77,54 @@ class LoadingButton @JvmOverloads constructor(
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
         textAlign = Paint.Align.CENTER
-        textSize = 50.0f
+        textSize = 18.sp
         color = Color.WHITE
-        typeface = Typeface.create(robotoFont, Typeface.NORMAL)
+        typeface = Typeface.create(robotoFont, Typeface.BOLD)
     }
 
-    // Used for the styling of the default background.
     private val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = ContextCompat.getColor(context, R.color.colorPrimary)
     }
 
-    // Used for the styling of the in progress background.
     private val inProgressBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = ContextCompat.getColor(context, R.color.colorPrimaryDark)
     }
 
     private val inProgressArcPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.YELLOW
+        color = ContextCompat.getColor(context, R.color.colorAccent)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        val cornerRadius = 10.0f
-        val backgroundWidth = measuredWidth.toFloat()
+        val cornerRadius = 4.dp
+        val backgroundWidth  = measuredWidth.toFloat()
         val backgroundHeight = measuredHeight.toFloat()
 
         canvas.drawColor(mBackgroundColor)
         textPaint.getTextBounds(mButtonText, 0, mButtonText.length, textRect)
-        canvas.drawRoundRect(0f, 0f, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius, backgroundPaint)
+        canvas.drawRect(0f, 0f, backgroundWidth, backgroundHeight, backgroundPaint)
 
         if (buttonState == ButtonState.Loading) {
-            var progressVal = progress * measuredWidth.toFloat()
-            canvas.drawRoundRect(0f, 0f, progressVal, backgroundHeight, cornerRadius, cornerRadius, inProgressBackgroundPaint)
+            var progressVal = progress * backgroundWidth
+            canvas.drawRect(0f, 0f, progressVal, backgroundHeight, inProgressBackgroundPaint)
 
             val arcDiameter = cornerRadius * 2
-            val arcRectSize = measuredHeight.toFloat() - paddingBottom.toFloat() - arcDiameter
+            val arcRectSize = backgroundHeight - paddingBottom.toFloat() - paddingTop.toFloat() - arcDiameter
 
             progressVal = progress * 360f
-            canvas.drawArc(paddingStart + arcDiameter,
-                           paddingTop.toFloat() + arcDiameter,
-                           arcRectSize,
-                           arcRectSize,
-                           0f,
+            canvas.drawArc( backgroundWidth -arcDiameter - arcRectSize- paddingStart.toFloat(),
+                            paddingTop.toFloat() + arcDiameter,
+                            backgroundWidth - arcDiameter,
+                            arcRectSize,
+                            0f,
                             progressVal,
                             true,
                             inProgressArcPaint)
         }
-        val centerX = measuredWidth.toFloat() / 2
-        val centerY = measuredHeight.toFloat() / 2 - textRect.centerY()
+        val centerX = backgroundWidth / 2
+        val centerY = backgroundHeight / 2 - textRect.centerY()
 
-        canvas.drawText(mButtonText,centerX, centerY, textPaint)
+        canvas.drawText(mButtonText, centerX, centerY, textPaint)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -159,8 +160,8 @@ class LoadingButton @JvmOverloads constructor(
         requestLayout()
     }
 
-    private fun setBgColor(backgroundColor: String) {
-        mBackgroundColor = Color.parseColor(backgroundColor)
+    private fun setBgColor(backgroundColor: Int) {
+        mBackgroundColor = backgroundColor
         invalidate()
         requestLayout()
     }

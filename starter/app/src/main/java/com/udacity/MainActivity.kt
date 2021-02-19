@@ -1,8 +1,5 @@
 package com.udacity
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.app.DownloadManager
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -59,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             if (downloadID == id) {
                 if (action.equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
                     val query = DownloadManager.Query()
-                    query.setFilterById(intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0));
+                    query.setFilterById(intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0))
                     val manager = context!!.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                     val cursor: Cursor = manager.query(query)
                     if (cursor.moveToFirst()) {
@@ -128,21 +125,6 @@ class MainActivity : AppCompatActivity() {
             loadingButton.setLoadingButtonState(ButtonState.Completed)
             showToast(getString(R.string.nothingSelected))
         }
-    }
-
-    companion object {
-        private const val CHANNEL_ID = "channelId"
-    }
-
-    private fun ObjectAnimator.disableViewDuringAnimation(view: View) {
-        addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator?) {
-                view.isEnabled = false
-            }
-            override fun onAnimationEnd(animation: Animator?) {
-                view.isEnabled = true
-            }
-        })
     }
 
     fun onRadioButtonClicked(view: View) {

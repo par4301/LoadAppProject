@@ -28,8 +28,7 @@
     <string name="nothingSelected">Please select a file to download.</string>
 
     <string name="loading">Downloading…</string>
-    <string name="download_complete">Download Complete!</string>
-    <string name="download">Download</string>
+    <string name="download">DOWNLOAD</string>
     <string name="success">Success</string>
     <string name="ok">OK</string>
     <string name="fileName">File Name:</string>
