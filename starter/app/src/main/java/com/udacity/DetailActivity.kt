@@ -2,6 +2,7 @@ package com.udacity
 
 import android.app.NotificationManager
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -32,12 +33,18 @@ class DetailActivity : AppCompatActivity() {
         status = intent.getStringExtra("status").toString()
         text_file_name.text = fileName
         text_status.text = status
-//        if(status.equals("Failed"))
-//            text_status.setTextColor("#FF0000")
+
+        if(status == getString(R.string.failed))
+            text_status.setTextColor(Color.RED)
+        else
+            text_status.setTextColor(getColor(R.color.colorPrimary))
     }
 
     private fun returnToMainActivity() {
-        val  mainActivity = Intent(this, MainActivity::class.java)
-        startActivity(mainActivity)
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+        startActivity(intent)
+        finish()
     }
 }

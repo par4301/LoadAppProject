@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                                         getString(R.string.notification_description),
                                         applicationContext,
                                         selectedGitHubDescription.toString(),
-                                        "Success"
+                                        getString(R.string.success)
                                 )
                             } else {
                                 loadingButton.setLoadingButtonState(ButtonState.Completed)
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                                         getString(R.string.notification_description),
                                         applicationContext,
                                         selectedGitHubDescription.toString(),
-                                        "Failed"
+                                    getString(R.string.failed)
                                 )
                             }
                         }
